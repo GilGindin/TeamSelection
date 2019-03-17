@@ -2,19 +2,20 @@ package com.gil.teamselection;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    private RecyclerView RVfirst;
+    private RecyclerView recyclerviewTeam1;
+    Myadapter myadapter ;
     private ArrayList<Player> myBigList;
     private ArrayList<Player> firstTeamList;
     private ArrayList<Player> secondTeamList;
@@ -33,7 +34,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RVfirst = findViewById(R.id.RVfirst);
+        recyclerviewTeam1 = findViewById(R.id.recyclerviewTeam1);
+        recyclerviewTeam1.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerviewTeam1.setLayoutManager(layoutManager);
+
+
         editTextName = findViewById(R.id.editTextName);
         editTextNum = findViewById(R.id.editTextNum);
 
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if ( teamAdding1.size() < 1 ) {
                     teamAdding1.add(newPlayer);
+
                 }
 
 
@@ -115,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                     teamAdding1.add(newPlayer);
                 }
 
+                myadapter = new Myadapter(this , teamAdding1);
+                recyclerviewTeam1.setAdapter(myadapter);
 
                 Toast.makeText(this, "new player added " + newPlayer.getName(), Toast.LENGTH_SHORT).show();
             }
@@ -132,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 if ( teamAdding1.size() < 1 ) {
                     teamAdding1.add(newPlayer);
                 }
+                myadapter = new Myadapter(this , teamAdding1);
+                recyclerviewTeam1.setAdapter(myadapter);
 
                 Toast.makeText(this, "new player added " + newPlayer.getName(), Toast.LENGTH_SHORT).show();
             }
@@ -148,6 +159,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if ( teamAdding1.size() < 1 ) {
                     teamAdding1.add(newPlayer);
+
+                    myadapter = new Myadapter(this , teamAdding1);
+                    recyclerviewTeam1.setAdapter(myadapter);
                 }
 
                 Toast.makeText(this, "new player added " + newPlayer.getName(), Toast.LENGTH_SHORT).show();
@@ -173,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonShow_onClick(View view) {
+
+
 
         Log.d(TAG, "buttonShow_onClick: " + teamAdding1.size() + teamAdding2.size() + teamAdding3.size());
 
