@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         teamAdding3 = new ArrayList<>(5);
 
 
-
     }
 
     public void addButton_onClick(View view) {
