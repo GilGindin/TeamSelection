@@ -3,15 +3,15 @@ package com.gil.teamselection;
 public class Player {
 
     private String name;
-    private int num;
+    private String num;
+    public  boolean isUsed;
 
-    public Player(String name, int num) {
+    public Player(String name, String num, boolean isUsed) {
         this.name = name;
         this.num = num;
+        this.isUsed=isUsed;
     }
 
-    public Player(String name) {
-    }
 
     public String getName() {
         return name;
@@ -21,11 +21,11 @@ public class Player {
         this.name = name;
     }
 
-    public int getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(String num) {
         this.num = num;
     }
 
