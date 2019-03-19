@@ -1,15 +1,18 @@
 package com.gil.teamselection;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,30 +51,66 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(this);
         recyclerviewTeam3.setLayoutManager(layoutManager3);
 
-        Spinner spinner = findViewById(R.id.numberSpinner);
-        ArrayAdapter<CharSequence> spinnerAdpater = ArrayAdapter.createFromResource(this, R.array.number_array, R.layout.support_simple_spinner_dropdown_item);
-        spinnerAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdpater);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                num = String.valueOf(Integer.parseInt(parent.getItemAtPosition(position).toString()));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+        final Button btn1 = (Button) findViewById(R.id.btnRating);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ShowDialog();
             }
         });
 
-
         editTextName = findViewById(R.id.editTextName);
-
         myBigList = new ArrayList<Player>();
         teamAdding1 = new ArrayList<>();
         teamAdding2 = new ArrayList<>();
         teamAdding3 = new ArrayList<>();
+    }
+
+    public void ShowDialog() {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        LinearLayout linearLayout = new LinearLayout(this);
+        final RatingBar rating = new RatingBar(this);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        rating.setLayoutParams(lp);
+        rating.setNumStars(5);
+        rating.setStepSize((float) 0.5);
+
+        //add ratingBar to linearLayout
+        linearLayout.addView(rating);
+
+        popDialog.setIcon(android.R.drawable.btn_star_big_on);
+        popDialog.setTitle("Add Rating: ");
+
+        //add linearLayout to dailog
+        popDialog.setView(linearLayout);
+
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+              num = String.valueOf(ratingBar.getRating());
+            }
+        });
+        // Button OK
+        popDialog.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                })
+                // Button Cancel
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        popDialog.create();
+        popDialog.show();
     }
 
     public void addButton_onClick(View view) {
@@ -81,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         Player p = new Player(name, num, false);
         if (myBigList.size() < 15) {
             List<Player> all1Plyers
-                    = myBigList.stream().filter(x -> x.getNum().equals(num)  && x.isUsed == false).collect(Collectors.toList());
+                    = myBigList.stream().filter(x -> x.getNum().equals(num) && x.isUsed == false).collect(Collectors.toList());
 
             if (all1Plyers.size() < 3) {
                 myBigList.add(p);
@@ -92,71 +131,71 @@ public class MainActivity extends AppCompatActivity {
 
         editTextName.setText("");
         teamSelection();
-
     }
 
-    public void teamSelection(){
+    public void teamSelection() {
         //split 15 to 3 groups
         //equal strength
 
         int index = 0;
         int strength = 1;
-        myadapter = new Myadapter(this, myBigList );
-      //  Player cuurent =  null;
-                myBigList.get(index);
+        myadapter = new Myadapter(this, myBigList);
+        //  Player cuurent =  null;
+        myBigList.get(index);
         while (strength < 6) {
 
 
             final int innerStrength = strength;
             //fill first list
             List<Player> all1Plyers
-                    = myBigList.stream().filter(x -> x.getNum().equals(num) && x.isUsed == false).collect(Collectors.toList());
+                    = myBigList.stream().filter(x -> x.getNum().equals(num) && (x.isUsed == false)).collect(Collectors.toList());
 
-         if (all1Plyers != null) {
-       //  cuurent = all1Plyers.get(index);
-               // if (all1Plyers.get(index).isUsed == false) {
-                  //  cuurent.isUsed = true;
-                    all1Plyers.get(index).isUsed = true;
-                    teamAdding1.add(all1Plyers.get(index));
-                    myadapter = new Myadapter(this, teamAdding1 );
-                    recyclerviewTeam1.setAdapter(myadapter);
-                    myadapter.notifyDataSetChanged();
-             //  }
+            if (all1Plyers.get(index).isUsed == false && all1Plyers != null) {
+
+                teamAdding1.add(all1Plyers.get(index));
+                all1Plyers.get(index).isUsed = true;
+                myadapter = new Myadapter(this, teamAdding1);
+                recyclerviewTeam1.setAdapter(myadapter);
+                myadapter.notifyDataSetChanged();
+                //  }
             }
+
             //fill second list
             all1Plyers
                     = myBigList.stream().filter(x -> x.getNum().equals(num) && x.isUsed == false).collect(Collectors.toList());
 
-            if (all1Plyers != null) {
-               if (all1Plyers.get(index).isUsed == false) {
-//                    cuurent = all1Plyers.get(index);
-//                      cuurent.isUsed = true;
-                    all1Plyers.get(index).isUsed = true;
+            if ( all1Plyers != null) {
+
+                if (all1Plyers.get(index).isUsed == false) {
                     teamAdding2.add(all1Plyers.get(index));
-                    myadapter = new Myadapter(this, teamAdding2 );
+                    all1Plyers.get(index).isUsed = true;
+                    myadapter = new Myadapter(this, teamAdding2);
                     recyclerviewTeam2.setAdapter(myadapter);
                     myadapter.notifyDataSetChanged();
                }
             }
             //fill third list
             all1Plyers
-                    = myBigList.stream().filter(x -> x.getNum().equals(num) && x.isUsed == false).collect(Collectors.toList());
+                    = myBigList.stream().filter(x -> x.getNum().equals(num) && (x.isUsed == false)).collect(Collectors.toList());
 
-            if (all1Plyers != null) {
+            if (all1Plyers.get(index).isUsed == false && all1Plyers != null) {
 
-               if (all1Plyers.get(index).isUsed == false) {
-//                    cuurent = all1Plyers.get(index);
-//                      cuurent.isUsed = true;
-                    all1Plyers.get(index).isUsed = true;
+            //    if (all1Plyers.get(index).isUsed == false) {
+//
                     teamAdding3.add(all1Plyers.get(index));
-                    myadapter = new Myadapter(this, teamAdding3 );
+                    all1Plyers.get(index).isUsed = true;
+                    myadapter = new Myadapter(this, teamAdding3);
                     recyclerviewTeam3.setAdapter(myadapter);
                     myadapter.notifyDataSetChanged();
-                }
+              //  }
             }
             strength++;
 
         }
+
+    }
+    private static boolean isIndexOutOfBounds(final List<Player> list, int index) {
+        return index < 0 || index >= list.size();
     }
 
-}
+   }
