@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ListOfPlayersFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="#F0ECEC"
+        android:padding="5dp"
+        android:weightSum="4">
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="הכנס שחקן"
+            android:padding="5dp"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:layout_width="217dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:id="@+id/btnRating"
+                android:background="@drawable/buttonshape"
+                android:shadowColor="#787878"
+                android:shadowDx="8"
+                android:shadowDy="3"
+                android:shadowRadius="1"
+                android:text="הוסף שחקן"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"/>
+
+            <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="4"-->
+                <!--android:textColor="#000"-->
+                <!--android:text="בחר את רמת השחקן"-->
+                <!--android:textSize="20sp" />-->
+        </LinearLayout>
+
+        <!--<Button-->
+            <!--android:id="@+id/add_btn"-->
+            <!--android:layout_width="217dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/buttonshape"-->
+            <!--android:shadowColor="#787878"-->
+            <!--android:shadowDx="8"-->
+            <!--android:shadowDy="3"-->
+            <!--android:shadowRadius="1"-->
+            <!--android:text="הוסף שחקן"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:textSize="20sp" />-->
+        <Button
+            android:id="@+id/create_btn"
+            android:layout_width="217dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#787878"
+            android:shadowDx="8"
+            android:shadowDy="3"
+            android:shadowRadius="1"
+            android:text="צור קבוצות"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:weightSum="10">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/playersRecyclerView"
+            android:orientation="vertical"
+            ></android.support.v7.widget.RecyclerView>
+
+
+       </LinearLayout>
+</LinearLayout>
