@@ -4,20 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:id="@+id/mainConteiner"
+    android:padding="16dp"
+    android:gravity="top"
+    tools:context=".MainActivity2">
 
- <Button
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:id="@+id/toListFragment"
-     android:text="Build your teams" />
-
-    <LinearLayout
+    <Button
+        android:id="@+id/createTeamsButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/mainConteiner"
-        android:padding="5dp"></LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:text="Create Teams"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
 </LinearLayout>

@@ -1,16 +1,18 @@
 package com.gil.teamselection;
 
-public class Player {
+
+import java.io.Serializable;
+
+public class Player implements Serializable {
 
     private String name;
-    private String num;
+    private double num;
     public  boolean isUsed;
 
-    public Player(String name, String num, boolean isUsed) {
+    public Player(String name, double num ) {
         this.name = name;
         this.num = num;
-        this.isUsed=isUsed;
-    }
+          }
 
 
     public String getName() {
@@ -21,11 +23,11 @@ public class Player {
         this.name = name;
     }
 
-    public String getNum() {
+    public double getNum() {
         return num;
     }
 
-    public void setNum(String num) {
+    public void setNum(double num) {
         this.num = num;
     }
 
@@ -33,4 +35,6 @@ public class Player {
     public String toString() {
         return name;
     }
+
+
 }

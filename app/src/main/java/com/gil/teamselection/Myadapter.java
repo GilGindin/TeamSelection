@@ -8,12 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 class Myadapter extends RecyclerView.Adapter<Myadapter.MyHolder> {
 
     private Context context;
     private ArrayList<Player> adpterList;
+    private OnItemClickListener mlistener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mlistener = listener;
+    }
 
     public Myadapter(Context context, ArrayList<Player> adpterList) {
         this.context = context;
@@ -23,7 +29,7 @@ class Myadapter extends RecyclerView.Adapter<Myadapter.MyHolder> {
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list, viewGroup, false);
-        MyHolder holder = new MyHolder(relativeLayout);
+        MyHolder holder = new MyHolder(relativeLayout , mlistener);
         return holder;
     }
 
@@ -35,19 +41,34 @@ class Myadapter extends RecyclerView.Adapter<Myadapter.MyHolder> {
 
         public TextView textView;
 
-        public MyHolder(@NonNull View view) {
+        public MyHolder(@NonNull View view, OnItemClickListener listener) {
             super(view);
             textView = view.findViewById(R.id.textItemHolder);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
 
+                }
+            });
         }
     }
 
     public void onBindViewHolder(@NonNull MyHolder myHolder, int position) {
+
         Player player = adpterList.get(position);
         myHolder.textView.setText(" " + player.toString());
-
-
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
 }
 
 

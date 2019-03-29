@@ -1,11 +1,9 @@
 package com.gil.teamselection;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -41,7 +38,21 @@ public class ListOfPlayersFragment extends Fragment {
 
         editTextName = v.findViewById(R.id.editTextName);
         myBigList = new ArrayList<Player>();
+        myBigList.add(new Player("Gil", 3));
+        myBigList.add(new Player("Ron", 3));
+        myBigList.add(new Player("Dan", 3));
+        myBigList.add(new Player("Shahar", 1));
+        myBigList.add(new Player("Eli", 5));
+        myBigList.add(new Player("Ali", 5));
+        myBigList.add(new Player("Kobi", 4));
+        myBigList.add(new Player("Yossi", 4));
+        myBigList.add(new Player("Avi", 1));
+        myBigList.add(new Player("Ran", 4));
+        myadapter = new Myadapter(getContext(), myBigList);
+
         playersRecyclerView = v.findViewById(R.id.playersRecyclerView);
+        playersRecyclerView.setAdapter(myadapter);
+
         playersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         playersRecyclerView.setHasFixedSize(true);
 
@@ -52,35 +63,36 @@ public class ListOfPlayersFragment extends Fragment {
             }
         });
 
-//        Button add_btn = v.findViewById(R.id.add_btn);
-//        add_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
         final Button create_btn = (Button) v.findViewById(R.id.create_btn);
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myBigList.size() == 4) {
+                if (myBigList.size() == 10) {
 
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
                     ShowingGruopsFragment showingGruopsFragment = new ShowingGruopsFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("key", myBigList);
                     bundle.putSerializable("avarge", avg);
                     showingGruopsFragment.setArguments(bundle);
-                    ft.replace(android.R.id.content, showingGruopsFragment);
-                    ft.addToBackStack(null);
+                    ListOfPlayersFragment listOfPlayersFragment = new ListOfPlayersFragment();
+                    ft.replace(android.R.id.content, showingGruopsFragment ,"SHOWING_FRAG");
+                    ft.addToBackStack("going to showFrag from listFrag");
                     ft.commit();
-
                 }
             }
         });
         return v;
+    }
+
+    public ArrayList<Player> getMyBigList() {
+        return myBigList;
+    }
+
+    public double getAvg() {
+        return avg;
     }
 
     public void ShowDialog() {
@@ -118,17 +130,25 @@ public class ListOfPlayersFragment extends Fragment {
                         String name = editTextName.getText().toString().trim();
                         Player p = new Player(name, num);
 
+
                         if (checkObjectNotNull(p.getNum(), p.getName()) == true) {
 
                             if (myBigList.size() < 15) {
 
                                 if (checkPlayersName(myBigList, p.getName()) == false) {
-                                    myBigList.add(p);
+
+                                    //  myBigList.add(p);
                                     num = p.getNum();
                                     sum = sum + num;
                                     avg = sum / 2;
                                     num = 0;
                                     myadapter = new Myadapter(getContext(), myBigList);
+                                    myadapter.setOnItemClickListener(new Myadapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(int position) {
+                                            removeItem(position);
+                                        }
+                                    });
                                     playersRecyclerView.setAdapter(myadapter);
                                     myadapter.notifyDataSetChanged();
                                 } else {
@@ -180,6 +200,34 @@ public class ListOfPlayersFragment extends Fragment {
                 return true;
             }
         return false;
+    }
+
+    public void removeItem(int position) {
+
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        dialog.setTitle("Are you sure you want to delete?");
+        dialog.setView(linearLayout);
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                myBigList.remove(position);
+                myadapter.notifyItemRemoved(position);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialog.create();
+        dialog.show();
+
     }
 
 }
