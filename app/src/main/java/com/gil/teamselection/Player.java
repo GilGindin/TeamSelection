@@ -7,13 +7,15 @@ public class Player implements Serializable {
 
     private String name;
     private double num;
-    public  boolean isUsed;
 
     public Player(String name, double num ) {
         this.name = name;
         this.num = num;
           }
 
+    public void changeText1(String text){
+        name = text;
+    }
 
     public String getName() {
         return name;

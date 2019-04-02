@@ -15,7 +15,7 @@
         android:background="#F0ECEC"
         android:orientation="vertical"
         android:padding="5dp"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <EditText
             android:id="@+id/editTextName"
@@ -55,6 +55,17 @@
             android:text="צור קבוצות"
             android:textColor="#F5E451"
             android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="1"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:id="@+id/textViewPlayers"/>
     </LinearLayout>
 
     <LinearLayout

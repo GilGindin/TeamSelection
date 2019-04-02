@@ -1,10 +1,10 @@
 package com.gil.teamselection;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,21 +12,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ListOfPlayersFragment extends Fragment {
 
+    public static final String KEY_PLAYERS = "number_of_players";
+    public static final String KEY_TEAMS = "number_of_teams";
+    private FragmentListOfPlayersListener listener;
     private RecyclerView playersRecyclerView;
     private EditText editTextName;
     private ArrayList<Player> myBigList;
     private double num = 0;
     private double sum = 0;
     private double avg = 0;
+    private int numberOfPlayers;
+    private int numberOfTeams;
     private Myadapter myadapter;
+    private TextView textViewPlayers;
+    private View v;
+    private ImageView imageView;
+
+    public interface FragmentListOfPlayersListener {
+        void onInputListSent(ArrayList<Player> list, int teams, double avarge);
+    }
 
     public ListOfPlayersFragment() {
     }
@@ -34,9 +48,20 @@ public class ListOfPlayersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list_of_players, container, false);
+        v = inflater.inflate(R.layout.fragment_list_of_players, container, false);
 
-        editTextName = v.findViewById(R.id.editTextName);
+        createList();
+        buildRecyclerView();
+
+//        if (getArguments() != null){
+//            numberOfPlayers = getArguments().getInt(KEY_PLAYERS , 0);
+//            numberOfTeams = getArguments().getInt(KEY_TEAMS, 0);
+//
+//        }
+        return v;
+    }
+
+    public void createList() {
         myBigList = new ArrayList<Player>();
         myBigList.add(new Player("Gil", 3));
         myBigList.add(new Player("Ron", 3));
@@ -48,13 +73,37 @@ public class ListOfPlayersFragment extends Fragment {
         myBigList.add(new Player("Yossi", 4));
         myBigList.add(new Player("Avi", 1));
         myBigList.add(new Player("Ran", 4));
-        myadapter = new Myadapter(getContext(), myBigList);
+        myadapter = new Myadapter(myBigList);
+        for (Player p : myBigList) {
+            sum += p.getNum();
+        }
+        avg = sum / numberOfTeams;
+    }
 
+    private void buildRecyclerView() {
         playersRecyclerView = v.findViewById(R.id.playersRecyclerView);
-        playersRecyclerView.setAdapter(myadapter);
-
-        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         playersRecyclerView.setHasFixedSize(true);
+        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        playersRecyclerView.setAdapter(myadapter);
+        myadapter.setOnItemClickListener(new Myadapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //TODO create option to new textname
+                //   changeItem(position ,);
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                removeItem(position);
+            }
+        });
+    }
+
+    public void setButtons() {
+        editTextName = v.findViewById(R.id.editTextName);
+        imageView = v.findViewById(R.id.image_delete);
+        textViewPlayers = v.findViewById(R.id.textViewPlayers);
+        textViewPlayers.setText("כמות השחקנים שצריך למלא: " + numberOfPlayers);
 
         final Button btn1 = (Button) v.findViewById(R.id.btnRating);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -67,24 +116,41 @@ public class ListOfPlayersFragment extends Fragment {
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myBigList.size() == 10) {
+                //  if (myBigList.size() == 10+numberOfPlayers) {
 
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-                    ShowingGruopsFragment showingGruopsFragment = new ShowingGruopsFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("key", myBigList);
-                    bundle.putSerializable("avarge", avg);
-                    showingGruopsFragment.setArguments(bundle);
-                    ListOfPlayersFragment listOfPlayersFragment = new ListOfPlayersFragment();
-                    ft.replace(android.R.id.content, showingGruopsFragment ,"SHOWING_FRAG");
-                    ft.addToBackStack("going to showFrag from listFrag");
-                    ft.commit();
-                }
+                listener.onInputListSent(myBigList, numberOfTeams, avg);
+
+
+//                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                    ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+//                    ShowingGruopsFragment showingGruopsFragment = new ShowingGruopsFragment();
+//                    ShowingGruopsFragment2 showingGruopsFragment2 = new ShowingGruopsFragment2();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(KEY_PLAYERS, myBigList);
+//                    bundle.putInt(KEY_TEAMS , numberOfTeams);
+//                    bundle.putDouble("avg" , avg);
+//                    showingGruopsFragment2.setArguments(bundle);
+//                    ft.replace(android.R.id.content, showingGruopsFragment2 ,"SHOWING_FRAG2");
+//                    ft.addToBackStack("going to showFrag from listFrag");
+//                    ft.remove(ListOfPlayersFragment.this);
+//                    ft.commit();
+                // }
             }
         });
-        return v;
+    }
+
+    public void updateArgumentsFromAddaptionFrag(int teams, int players) {
+        if (teams != 0 && players != 0) {
+            numberOfTeams = teams;
+            numberOfPlayers = players;
+        }
+    }
+
+    public void updateFromShowFrag(ArrayList<Player> list, double avarge) {
+        if (list.size() != 0 && avarge != 0) {
+            myBigList = list;
+            avg = avarge;
+        }
     }
 
     public ArrayList<Player> getMyBigList() {
@@ -93,6 +159,10 @@ public class ListOfPlayersFragment extends Fragment {
 
     public double getAvg() {
         return avg;
+    }
+
+    public int getTeams() {
+        return numberOfTeams;
     }
 
     public void ShowDialog() {
@@ -137,15 +207,22 @@ public class ListOfPlayersFragment extends Fragment {
 
                                 if (checkPlayersName(myBigList, p.getName()) == false) {
 
-                                    //  myBigList.add(p);
+                                    myBigList.add(p);
+                                    numberOfPlayers--;
+                                    textViewPlayers.setText("כמות השחקנים שצריך למלא: " + numberOfPlayers);
                                     num = p.getNum();
                                     sum = sum + num;
-                                    avg = sum / 2;
+                                    //  avg = sum / 2;
                                     num = 0;
-                                    myadapter = new Myadapter(getContext(), myBigList);
+                                    myadapter = new Myadapter(myBigList);
                                     myadapter.setOnItemClickListener(new Myadapter.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(int position) {
+
+                                        }
+
+                                        @Override
+                                        public void onDeleteClick(int position) {
                                             removeItem(position);
                                         }
                                     });
@@ -230,4 +307,24 @@ public class ListOfPlayersFragment extends Fragment {
 
     }
 
+    public void changeItem(int position, String text) {
+        myBigList.get(position).changeText1(text);
+        myadapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentListOfPlayersListener) {
+            listener = (FragmentListOfPlayersListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentListOfPlayersListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 }
