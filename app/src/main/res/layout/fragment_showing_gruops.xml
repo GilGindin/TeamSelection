@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layoutDirection="rtl"
         android:orientation="horizontal">
 
         <TextView
@@ -20,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Team 1"
+            android:text="קבוצה 1"
             android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -30,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Team 2"
+            android:text="קבוצה 2"
             android:textColor="#041AA7"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -40,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Team 3"
+            android:text="קבוצה 3"
             android:textColor="#E60521"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -51,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
+        android:layoutDirection="rtl"
         android:orientation="horizontal"
         android:weightSum="3">
 
@@ -59,9 +61,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layoutDirection="rtl"
             android:background="#D5CDCD"
             android:padding="2dp"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            android:textDirection="rtl">
 
         </android.support.v7.widget.RecyclerView>
 

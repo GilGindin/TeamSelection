@@ -1,19 +1,12 @@
 package com.gil.teamselection;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-
-import static com.gil.teamselection.ListOfPlayersFragment.KEY_PLAYERS;
 
 public class MainActivity2 extends AppCompatActivity implements AddaptionFragment.FragmentAddpationListener, ListOfPlayersFragment.FragmentListOfPlayersListener, ShowingGruopsFragment.FragmentShowListener {
     private static final String TAG = "MainActivity";
@@ -21,7 +14,7 @@ public class MainActivity2 extends AppCompatActivity implements AddaptionFragmen
     private Button createTeamsButton;
     private ListOfPlayersFragment listOfPlayersFragment;
     private AddaptionFragment addaptionFragment;
-    private ShowingGruopsFragment showingGruopsFragment;
+    private ShowingGruopsFragment2 showingGruopsFragment2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +23,7 @@ public class MainActivity2 extends AppCompatActivity implements AddaptionFragmen
 
         listOfPlayersFragment = new ListOfPlayersFragment();
         addaptionFragment = new AddaptionFragment();
-        showingGruopsFragment = new ShowingGruopsFragment();
+        showingGruopsFragment2 = new ShowingGruopsFragment2();
 
         createTeamsButton = findViewById(R.id.createTeamsButton);
         viewVisable(createTeamsButton);
@@ -69,21 +62,13 @@ public class MainActivity2 extends AppCompatActivity implements AddaptionFragmen
     }
 
     public void refresh() {
-//        //onInputShowListener(showingGruopsFragment.getMyBigList() , listOfPlayersFragment.getAvg());
+        showingGruopsFragment2 = new ShowingGruopsFragment2();
         onInputListSent(listOfPlayersFragment.getMyBigList(), listOfPlayersFragment.getTeams(), listOfPlayersFragment.getAvg());
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-        ft.replace(R.id.mainConteiner, showingGruopsFragment);
+        ft.replace(R.id.mainConteiner, showingGruopsFragment2);
+        ft.addToBackStack("");
         ft.commit();
-
-//        ShowingGruopsFragment showingGruopsFragment = new ShowingGruopsFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("key_list", listOfPlayersFragment.getMyBigList());
-//        bundle.putSerializable("avarge", listOfPlayersFragment.getAvg());
-//        showingGruopsFragment.setArguments(bundle);
-//        ft.replace(android.R.id.content, showingGruopsFragment);
-//        ft.addToBackStack("going to showFrag from listFrag");
-//        ft.commit();
     }
 
 
@@ -95,9 +80,9 @@ public class MainActivity2 extends AppCompatActivity implements AddaptionFragmen
 
     @Override
     public void onInputListSent(ArrayList<Player> list, int teams, double avarge) {
-        showingGruopsFragment.onUpdate(list, teams, avarge);
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainConteiner, showingGruopsFragment).addToBackStack("").commit();
-        Log.d(TAG, "onInputListSent: in mainactivity " + list + " , " + teams + " , " + avarge);
+        showingGruopsFragment2.onUpdate(list, teams, avarge);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainConteiner, showingGruopsFragment2).addToBackStack("").commit();
+
     }
 
     @Override

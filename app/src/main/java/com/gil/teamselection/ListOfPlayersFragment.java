@@ -27,6 +27,8 @@ public class ListOfPlayersFragment extends Fragment {
     private FragmentListOfPlayersListener listener;
     private RecyclerView playersRecyclerView;
     private EditText editTextName;
+    private Button btn1;
+    private Button create_btn;
     private ArrayList<Player> myBigList;
     private double num = 0;
     private double sum = 0;
@@ -52,12 +54,8 @@ public class ListOfPlayersFragment extends Fragment {
 
         createList();
         buildRecyclerView();
+        setButtons();
 
-//        if (getArguments() != null){
-//            numberOfPlayers = getArguments().getInt(KEY_PLAYERS , 0);
-//            numberOfTeams = getArguments().getInt(KEY_TEAMS, 0);
-//
-//        }
         return v;
     }
 
@@ -69,10 +67,16 @@ public class ListOfPlayersFragment extends Fragment {
         myBigList.add(new Player("Shahar", 1));
         myBigList.add(new Player("Eli", 5));
         myBigList.add(new Player("Ali", 5));
-        myBigList.add(new Player("Kobi", 4));
-        myBigList.add(new Player("Yossi", 4));
-        myBigList.add(new Player("Avi", 1));
-        myBigList.add(new Player("Ran", 4));
+//        myBigList.add(new Player("Kobi", 4));
+//        myBigList.add(new Player("Yossi", 4));
+//        myBigList.add(new Player("Avi", 1));
+//        myBigList.add(new Player("Ran", 4));
+//        myBigList.add(new Player("גיל", 5));
+//        myBigList.add(new Player("סהר", 5));
+//        myBigList.add(new Player("רן", 4));
+//        myBigList.add(new Player("יעקב", 4));
+//        myBigList.add(new Player("עוזי", 1));
+//        myBigList.add(new Player("Ran", 4));
         myadapter = new Myadapter(myBigList);
         for (Player p : myBigList) {
             sum += p.getNum();
@@ -103,16 +107,16 @@ public class ListOfPlayersFragment extends Fragment {
         editTextName = v.findViewById(R.id.editTextName);
         imageView = v.findViewById(R.id.image_delete);
         textViewPlayers = v.findViewById(R.id.textViewPlayers);
-        textViewPlayers.setText("כמות השחקנים שצריך למלא: " + numberOfPlayers);
+        textViewPlayers.setText("כמות השחקנים שצריך להזין: " + numberOfPlayers);
 
-        final Button btn1 = (Button) v.findViewById(R.id.btnRating);
+         btn1 = (Button) v.findViewById(R.id.btnRating);
         btn1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ShowDialog();
             }
         });
 
-        final Button create_btn = (Button) v.findViewById(R.id.create_btn);
+         create_btn = (Button) v.findViewById(R.id.create_btn);
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,7 +260,6 @@ public class ListOfPlayersFragment extends Fragment {
         popDialog.create();
         popDialog.show();
     }
-
 
     public static boolean checkPlayersName(Collection<Player> list, String name) {
         for (Player o : list) {

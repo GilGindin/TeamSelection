@@ -173,8 +173,7 @@ public class ShowingGruopsFragment extends Fragment {
     }
 
     public void initRecycerView(ArrayList<Player> list) {
-        Log.d(TAG, "initRecycerView: init recclcerview");
-        myadapter = new Myadapter( list);
+        myadapter = new Myadapter(list);
         recyclerviewTeam1.setAdapter(myadapter);
         recyclerviewTeam1.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerviewTeam1.setHasFixedSize(true);

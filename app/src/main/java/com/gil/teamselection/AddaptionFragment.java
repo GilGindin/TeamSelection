@@ -3,8 +3,6 @@ package com.gil.teamselection;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +26,7 @@ public class AddaptionFragment extends Fragment {
     private Switch switchButtonDataBase;
     private int seekBarPlayersProgress;
     private int seekBarTeamsProgress;
+    private View v;
 
     public interface FragmentAddpationListener {
         void onInputAsent(int teams, int players);
@@ -41,8 +40,13 @@ public class AddaptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_addaption, container, false);
+         v = inflater.inflate(R.layout.fragment_addaption, container, false);
 
+      setButtons();
+
+        return v;
+    }
+    public void setButtons(){
         seekBarPlayers = v.findViewById(R.id.seekBarPlayers);
         seekBarTeams = v.findViewById(R.id.seekBarTeams);
         continueButton = v.findViewById(R.id.continueButton);
@@ -56,7 +60,10 @@ public class AddaptionFragment extends Fragment {
 
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    seekBarPlayersProgress = progress;
+                    seekBarPlayersProgress = progress+2;
+                    if (seekBarPlayersProgress < seekBarTeamsProgress){
+                        seekBarPlayersProgress = seekBarTeamsProgress;
+                    }
                     textViewCountPlayers = v.findViewById(R.id.textViewCountPlayers);
                     textViewCountPlayers.setText("" + seekBarPlayersProgress);
 
@@ -79,9 +86,9 @@ public class AddaptionFragment extends Fragment {
 
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                    seekBarTeamsProgress = progressValue;
+                    seekBarTeamsProgress = progressValue +1;
                     if (fromUser) {
-                        seekBarPlayers.setProgress(seekBarTeamsProgress * 2);
+                        seekBarPlayers.setProgress(seekBarTeamsProgress *2 -2);
                     }
                     textViewCountTeams = v.findViewById(R.id.textViewCountTeams);
                     textViewCountTeams.setText("" + seekBarTeamsProgress);
@@ -122,7 +129,6 @@ public class AddaptionFragment extends Fragment {
                 // Bundle bundle_from_addaptionFrag = new Bundle();
                 int numberOPlayers = seekBarPlayers.getProgress();
                 int numberOfTeams = seekBarTeams.getProgress();
-                Log.d("", "onClick: " + seekBarPlayers + " , " + seekBarTeams);
                 listener.onInputAsent(numberOfTeams, numberOPlayers);
 
                 // bundle_from_addaptionFrag.putInt("key_players", numberOPlayers);
@@ -138,8 +144,6 @@ public class AddaptionFragment extends Fragment {
 
             }
         });
-
-        return v;
     }
 
     @Override
