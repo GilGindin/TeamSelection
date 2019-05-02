@@ -3,6 +3,7 @@ package com.gil.teamselection;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,8 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.ListAdapter;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import static com.gil.teamselection.ListOfPlayersFragment.KEY_PLAYERS;
@@ -21,8 +27,6 @@ public class ShowingGruopsFragment2 extends Fragment {
 
     private static final String TAG = "ShowingGruopsFragment";
     private RecyclerView recyclerviewTeam1;
-    private RecyclerView recyclerviewTeam2;
-    private RecyclerView recyclerviewTeam3;
     private double getAvg;
     private int getTeams;
     private Myadapter myadapter;
@@ -31,6 +35,7 @@ public class ShowingGruopsFragment2 extends Fragment {
     private Button refreshButton;
     private Button backFromShowinBtn;
     private View v;
+    private GridView mGridLayout;
 
     public ShowingGruopsFragment2() {
         // Required empty public constructor
@@ -40,37 +45,19 @@ public class ShowingGruopsFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         v = inflater.inflate(R.layout.fragment_showing_gruops, container, false);
+        v = inflater.inflate(R.layout.fragment_showing_gruops, container, false);
 
-         setButtons();
-
-//        recyclerviewTeam3 = v.findViewById(R.id.recyclerViewTeam3);
-//        recyclerviewTeam3.setHasFixedSize(true);
-//        recyclerviewTeam2 = v.findViewById(R.id.recyclerviewTeam2);
-//        recyclerviewTeam2.setHasFixedSize(true);
-//        recyclerviewTeam1.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        recyclerviewTeam1.setLayoutManager(layoutManager);
-//        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext());
-//        recyclerviewTeam2.setLayoutManager(layoutManager2);
-//        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getContext());
-//        recyclerviewTeam3.setLayoutManager(layoutManager3);
-
-//        if (getArguments() != null) {
-//
-//            getArrayList = (ArrayList<Player>) getArguments().getSerializable(KEY_PLAYERS);
-//            getArrayList = (ArrayList<Player>) getArrayList.clone();
-//            teams = getArguments().getInt("number_of_teams", 0);
-//            avg = getArguments().getDouble("avg", 0);
-//        }
+        setButtons();
 
         getListToCreateLists(getArrayList, getTeams, getAvg);
         onClick(refreshButton);
         onClick(backFromShowinBtn);
         return v;
     }
-    public void setButtons(){
-        recyclerviewTeam1 = v.findViewById(R.id.recyclerviewTeam1);
+
+    public void setButtons() {
+        // recyclerviewTeam1 = v.findViewById(R.id.recyclerviewTeam1);
+        mGridLayout = v.findViewById(R.id.recyclerviewTeam1);
         refreshButton = v.findViewById(R.id.refreshButton);
         backFromShowinBtn = v.findViewById(R.id.backFromShowinBtn);
     }
@@ -117,7 +104,6 @@ public class ShowingGruopsFragment2 extends Fragment {
     }
 
     public void getListToCreateLists(ArrayList<Player> bigList, int teams, double avg) {
-
         //bigList = number of Players the user insert;
         // teams = number of teams the user insert;
         // avg = the avarge of all Players.getnum() / teams;
@@ -127,11 +113,10 @@ public class ShowingGruopsFragment2 extends Fragment {
 
         for (int i = 0; i < teams; i++) {
             d[i] = new ArrayList<Player>();
+            initRecycerView(d[i]);
+
             if (z != 0) {
                 z = 0;
-            }
-            if (d[i].size() != d[i].size()) {
-
             }
             Collections.shuffle(bigList);
             for (int j = 0; j < bigList.size(); j++) {
@@ -142,7 +127,6 @@ public class ShowingGruopsFragment2 extends Fragment {
                         d[i].add(current);
                         z += current.getNum();
                         bigList.remove(current);
-                        initRecycerView(d[i]);
                         break;
                     }
                 }
@@ -150,30 +134,15 @@ public class ShowingGruopsFragment2 extends Fragment {
         }
     }
 
-    public void initRecycerView(ArrayList<Player> list) {
 
-       for (int i = 0 ; i < getTeams ; i++){
-           myadapter = new Myadapter(list);
-           recyclerviewTeam1.setAdapter(myadapter);
-           recyclerviewTeam1.setLayoutManager(new LinearLayoutManager(getContext()));
-           recyclerviewTeam1.setHasFixedSize(true);
-           myadapter.notifyDataSetChanged();
-       }
+    public void initRecycerView(List<Player> list) {
+
     }
 
-    //      checkTeamsSize(d[i]);
 
-//    private void checkTeamsSize(ArrayList<Player> d){
-//        int index = 0;
-//        for (int i = 0 ; i < teams ; i++){
-//            if (d[i].size() > d[i].size()){
-//                d[i].remove(index);
-//                d[i].get(index);
+//            if (d[i].size() != d[i].size()) {
+//                checkTeamsSize(d[i]);
 //            }
-//        }
-//    }
-//    public void removePosition(int position){
-//        bigList.remove(position);
-//        myadapter.notifyItemRemoved(position);
-//    }
+
+
 }

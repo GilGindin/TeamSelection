@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddaptionFragment">
+
+    <TextView
+        android:id="@+id/textViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="יצירת קבוצות"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewNumberOfPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="מספר השחקנים"
+        android:textSize="20sp" />
+
+
+    <SeekBar
+        android:id="@+id/seekBarPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:max="40"
+        android:progressDrawable="@drawable/custom_progress"
+        android:thumb="@drawable/ic_directions_run" />
+
+    <EditText
+        android:id="@+id/textViewCountPlayers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="4"
+        android:inputType="number"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewNumberOfTeams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="מספר הקבוצות"
+        android:textSize="20sp" />
+
+    <SeekBar
+        android:id="@+id/seekBarTeams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="10"
+        android:progressDrawable="@drawable/custom_progress"
+        android:thumb="@drawable/ic_directions_run" />
+
+    <TextView
+        android:id="@+id/textViewCountTeams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="2"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <Switch
+        android:id="@+id/switchButtonRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:checked="true"
+        android:gravity="center"
+        android:text="להוסיף דירוג שחקנים"
+        android:textColor="#008F36"
+        android:textOff="לא"
+        android:textOn="כן"
+        android:textSize="15sp"
+        android:textStyle="bold|italic" />
+
+    <Switch
+        android:id="@+id/switchButtonDataBase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:checked="false"
+        android:gravity="center"
+        android:text="להשתמש בשחקנים קיימים"
+        android:textColor="#008F36"
+        android:textOff="לא"
+        android:textOn="כן"
+        android:textSize="15sp"
+        android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="#2C2828"
+        android:text="אישור"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+</LinearLayout>

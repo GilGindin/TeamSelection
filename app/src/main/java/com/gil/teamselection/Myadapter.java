@@ -80,6 +80,10 @@ class Myadapter extends RecyclerView.Adapter<Myadapter.MyHolder> {
         return adpterList.size();
     }
 
+    public ArrayList<Player> getadpterList(){
+        return adpterList;
+    }
+
 }
 
 

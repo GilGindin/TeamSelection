@@ -120,25 +120,7 @@ public class ListOfPlayersFragment extends Fragment {
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  if (myBigList.size() == 10+numberOfPlayers) {
-
                 listener.onInputListSent(myBigList, numberOfTeams, avg);
-
-
-//                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-//                    ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-//                    ShowingGruopsFragment showingGruopsFragment = new ShowingGruopsFragment();
-//                    ShowingGruopsFragment2 showingGruopsFragment2 = new ShowingGruopsFragment2();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(KEY_PLAYERS, myBigList);
-//                    bundle.putInt(KEY_TEAMS , numberOfTeams);
-//                    bundle.putDouble("avg" , avg);
-//                    showingGruopsFragment2.setArguments(bundle);
-//                    ft.replace(android.R.id.content, showingGruopsFragment2 ,"SHOWING_FRAG2");
-//                    ft.addToBackStack("going to showFrag from listFrag");
-//                    ft.remove(ListOfPlayersFragment.this);
-//                    ft.commit();
-                // }
             }
         });
     }
@@ -207,7 +189,7 @@ public class ListOfPlayersFragment extends Fragment {
 
                         if (checkObjectNotNull(p.getNum(), p.getName()) == true) {
 
-                            if (myBigList.size() < 15) {
+                            if (myBigList.size() <= numberOfPlayers) {
 
                                 if (checkPlayersName(myBigList, p.getName()) == false) {
 
@@ -216,7 +198,7 @@ public class ListOfPlayersFragment extends Fragment {
                                     textViewPlayers.setText("כמות השחקנים שצריך למלא: " + numberOfPlayers);
                                     num = p.getNum();
                                     sum = sum + num;
-                                    //  avg = sum / 2;
+                                    avg = sum / numberOfTeams;
                                     num = 0;
                                     myadapter = new Myadapter(myBigList);
                                     myadapter.setOnItemClickListener(new Myadapter.OnItemClickListener() {
@@ -241,7 +223,7 @@ public class ListOfPlayersFragment extends Fragment {
 
                             }
                         } else {
-                            Toast.makeText(getContext(), "Missing player name or rating...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Missing player name ...", Toast.LENGTH_SHORT).show();
                             num = 0;
                         }
                         editTextName.setText("");
